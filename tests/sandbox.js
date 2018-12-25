@@ -1,0 +1,1 @@
+var ezc = new EZCanvas();
