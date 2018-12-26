@@ -1,53 +1,50 @@
 class Signal {
-    constructor(name, parameters) {
+    constructor(name) {
         this.name = name;
-        this.parameters = parameters;
+        this.listeners = [];
     }
 
-    send() {
-        var numListeners = SignalListener.listeners.length;
+    send(parameters) {
+        var numListeners = this.listeners.length;
         for (var i = 0; i < numListeners; i++) {
-            SignalListener.listeners[i].receive(this);
+            this.listeners[i].receive(this, parameters);
         }
     }
 }
 
 class SignalListener {
     constructor() {
-        this.signalNames = [];
+        this.signals = [];
         this.callbacks = [];
-        SignalListener.listeners.push(this);
     }
 
-    connect(signalName, callback) {
-        if (this.signalNames.find(function (element) { return element == signalName; }) == undefined) {
-            this.signalNames.push(signalName);
-            this.callbacks.push(callback);   
+    connect(signal, callback) {
+        if (this.signals.find(function (element) { return element == signal; }) == undefined) {
+            this.signals.push(signal);
+            this.callbacks.push(callback);
+            signal.listeners.push(this);
         }
     }
 
-    receive(signal) {
+    receive(signal, parameters) {
         if (signal instanceof Signal) {
-            var index = this.signalNames.findIndex(function (element) { return element == signal.name; })
+            var index = this.signals.findIndex(function (element) { return element == signal; })
             if (index != undefined) {
-                this.callbacks[index](signal.parameters);
+                this.callbacks[index](parameters);
             }
         }
     }
 }
 
-SignalListener.listeners = [];
-
 class EZCanvas {
     constructor() {
         console.log("EZCanvas succesfully loaded!");
 
-        var signal = new Signal("test_signal", ["hey!"]);
-        var signal2 = new Signal("test_signal2", ["hey!2"]);
+        var signal = new Signal("print_signal");
 
         var listener = new SignalListener();
-        listener.connect("test_signal", function (parameters) { console.log(parameters[0]) });
-        listener.connect("test_signal2", function (parameters) { console.log(parameters[0]) });
-        signal2.send();
+        listener.connect(signal, function (parameters) { console.log(parameters[0]) });
+        signal.send(["print_signal: Signal received!"]);
+        signal.send(["print_signal: Signal received! 2"]);
     }
 }
