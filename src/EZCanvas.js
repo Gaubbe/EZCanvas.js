@@ -1,3 +1,124 @@
+//Maths
+class Vector3 {
+    constructor() {
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
+    }
+
+    setValue(x, y, z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    add(v) {
+        if (v instanceof Vector3) {
+            this.x += v.x;
+            this.y += v.y;
+            this.z += v.z;
+        }
+    }
+
+    subtract(v) {
+        if (v instanceof Vector3) {
+            this.x -= v.x;
+            this.y -= v.y;
+            this.z -= v.z;
+        }
+    }
+
+    multiply(v) {
+        if (v instanceof Vector3) {
+            this.x *= v.x;
+            this.y *= v.y;
+            this.z *= v.z;
+        }
+    }
+
+    divide(v) {
+        if (v instanceof Vector3) {
+            this.x /= v.x;
+            this.y /= v.y;
+            this.z /= v.z;
+        }
+    }
+
+    dot(v) {
+        if (v instanceof Vector3) {
+            return (this.x * v.x) + (this.y * v.y) + (this.z * v.z);
+        }
+    }
+
+    magnitude() {
+        return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+    }
+
+    normalize() {
+        var mag = this.magnitude();
+        this.x = this.x / mag;
+        this.y = this.y / mag;
+        this.z = this.z / mag;
+    }
+}
+
+class Vector2 {
+    constructor() {
+        this.x = 0;
+        this.y = 0;
+    }
+
+    setValue(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    add(v) {
+        if (v instanceof Vector2) {
+            this.x += v.x;
+            this.y += v.y;
+        }
+    }
+
+    subtract(v) {
+        if (v instanceof Vector2) {
+            this.x -= v.x;
+            this.y -= v.y;
+        }
+    }
+
+    multiply(v) {
+        if (v instanceof Vector2) {
+            this.x *= v.x;
+            this.y *= v.y;
+        }
+    }
+
+    divide(v) {
+        if (v instanceof Vector2) {
+            this.x /= v.x;
+            this.y /= v.y;
+        }
+    }
+
+    dot(v) {
+        if (v instanceof Vector2) {
+            return (this.x * v.x) + (this.y * v.y);
+        }
+    }
+
+    magnitude() {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+
+    normalize() {
+        var mag = this.magnitude();
+        this.x = this.x / mag;
+        this.y = this.y / mag;
+    }
+}
+
+//Messaging
 class Signal {
     constructor(name) {
         this.name = name;
@@ -38,13 +159,7 @@ class SignalListener {
 
 class EZCanvas {
     constructor() {
+        //TODO: Initialize stuff
         console.log("EZCanvas succesfully loaded!");
-
-        var signal = new Signal("print_signal");
-
-        var listener = new SignalListener();
-        listener.connect(signal, function (parameters) { console.log(parameters[0]) });
-        signal.send(["print_signal: Signal received!"]);
-        signal.send(["print_signal: Signal received! 2"]);
     }
 }
