@@ -1,9 +1,107 @@
 //Maths
+class Matrix3 {
+    constructor() {
+        this.elements = [
+            0, 0, 0,
+            0, 0, 0,
+            0, 0, 0
+        ];
+    }
+
+    diagonal(num) {
+        for (var i = 0; i < 9; i++) {
+            if (i % 4 == 0) {
+                this.elements[i] = num;
+            } else {
+                this.elements[i] = 0;
+            }
+        }
+    }
+
+    identity() {
+        this.diagonal(1);
+    }
+
+    add(m) {
+        if (m instanceof Matrix3) {
+            for (var i = 0; i < 9; i++) {
+                this.elements[i] += m.elements[i];
+            }
+        }
+    }
+
+    subtract(m) {
+        if (m instanceof Matrix3) {
+            for (var i = 0; i < 9; i++) {
+                this.elements[i] -= m.elements[i];
+            }
+        }
+    }
+
+    multiply(m) {
+        if (m instanceof Matrix3) {
+            for (var i = 0; i < 9; i++) {
+                this.elements[i] *= m.elements[i];
+            }
+        }
+    }
+
+    divide(m) {
+        if (m instanceof Matrix3) {
+            for (var i = 0; i < 9; i++) {
+                this.elements[i] /= m.elements[i];
+            }
+        }
+    }
+
+    dot(other) {
+        //Matrix-Matrix multiplication
+        if (other instanceof Matrix3) {
+            var newElements = [];
+            for (var y = 0; y < 3; y++) {
+                for (var x = 0; x < 3; x++) {
+                    var sum = 0;
+                    for (var e = 0; e < 3; e++) {
+                        sum += this.elements[e + y * 3] * other.elements[x + e * 3];
+                    }
+                    newElements[x + y * 3] = sum;
+                }
+            }
+            this.elements = newElements;
+        }
+
+        //Matrix-Vector multiplication
+        if (other instanceof Vector3) {
+            var result = new Vector3();
+            result.x =
+                this.elements[0] * other.x +
+                this.elements[1] * other.y +
+                this.elements[2] * other.z;
+
+            result.y =
+                this.elements[3] * other.x +
+                this.elements[4] * other.y +
+                this.elements[5] * other.z;
+
+            result.z =
+                this.elements[6] * other.x +
+                this.elements[7] * other.y +
+                this.elements[8] * other.z;
+
+            return result;
+        }
+    }
+}
+
 class Vector3 {
     constructor() {
         this.x = 0;
         this.y = 0;
         this.z = 0;
+    }
+
+    copy(v) {
+        this.setValue(v.x, v.y, v.z)
     }
 
     setValue(x, y, z) {
@@ -66,6 +164,10 @@ class Vector2 {
     constructor() {
         this.x = 0;
         this.y = 0;
+    }
+
+    copy(v) {
+        this.setValue(v.x, v.y)
     }
 
     setValue(x, y) {
