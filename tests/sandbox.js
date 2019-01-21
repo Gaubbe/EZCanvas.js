@@ -1,19 +1,12 @@
-var ezc = new EZCanvas();
+var v0 = new Vector4(250, 0, 0, 1);
+var v1 = new Vector4(0, 250, 0, 1);
+var v2 = new Vector4(500, 500, 0, 1);
 
-var mat = new Matrix3();
-mat.elements[0] = 2;
-mat.elements[1] = 0;
-mat.elements[2] = 3;
-mat.elements[3] = 0;
-mat.elements[4] = 2;
-mat.elements[5] = 3;
-mat.elements[6] = 0;
-mat.elements[7] = 0;
-mat.elements[8] = 1;
+var r = new Renderer();
+var b = new ImageBuffer(500, 500);
 
-var vec = new Vector3();
-vec.x = 3;
-vec.y = 2;
-vec.z = 1;
+r.drawTriangle(v0, v1, v2, b);
 
-console.log(mat.dot(vec));
+var c = new Canvas(500, 500, "body");
+
+c.ctx.putImageData(b.toImageData(), 0, 0);
